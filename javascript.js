@@ -1,4 +1,7 @@
-optionsArray = ['Rock', 'Paper','Scissors']
+optionsArray = ['Rock', 'Paper','Scissors'];
+payoffArray = [[[0,0],[-1,1], [1,-1]],
+               [[1,-1],[0,0], [-1,1]],
+               [[-1,1],[1,-1], [0,0]]];
 function computerPlay() {
     //debugger;
     num=Math.floor(Math.random()*optionsArray.length);
@@ -40,17 +43,36 @@ function playRound(playerSelection, computerSelection) {
     return "impossible";
 }
 
+function getIndex(option) {
+    return optionsArray.findIndex(element=>element.toLowerCase()==option.toLowerCase())
+}
+
+function playRoundWithPayoff(playerSelection, computerSelection) 
+{
+    let payoff=payoffArray[getIndex(playerSelection)][getIndex(computerSelection)];
+    if (payoff[0]==1) {
+        return ("You win!"+playerSelection + " beats " + computerSelection);
+    } else if (payoff[0]==-1) {
+        return "You loose!" + computerSelection + " beats "+playerSelection;
+    } else if (payoff[0]==payoff[1]) {
+        return "Tie!";
+    }
+    return "Impossible";
+}
 function game() {
     for (let i=1;i<=100;i++) {
         computerSelection = computerPlay();
         //playerSelection = prompt("Rock, paper or scissors?");
         playerSelection = computerPlay();
-        console.log(playRound(playerSelection,computerSelection));
+        //console.log(playRound(playerSelection,computerSelection));
+        console.log(playRoundWithPayoff(playerSelection,computerSelection));
     }
 }
 //const computerSelection = computerPlay();
 //const playerSelection= computerSelection;
+//optionsArray.findIndex(element=>element.toLowerCase()=="sciSSors".toLowerCase())
 let playerSelection = "scissors";
 let computerSelection = "rock";
 //console.log(playRound(playerSelection,computerSelection))
 game();
+//console.log(payoffArray);
